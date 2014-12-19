@@ -1,0 +1,12 @@
+name = Luggage Markdown
+description = Markdown Text Format
+core = 7.x
+package = Luggage
+version = 7.x-1.0-dev
+project = luggage_markdown
+dependencies[] = features
+dependencies[] = image_resize_filter
+dependencies[] = markdown
+dependencies[] = pathologic
+features[features_api][] = api:2
+features[filter][] = markdown
