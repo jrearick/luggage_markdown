@@ -3,3 +3,41 @@
  * @file
  * Drupal needs this blank file.
  */
+
+
+/**
+ * Implements hook_filter_info()
+ */
+function luggage_markdown_filter_info() {
+  $filters['filter_luggage_markdown'] = array(
+    'title' => t('Luggage Markdown'),
+    'description' => t('Provides extra features to the stock Drupal Contrib markdown filter'),
+    'process callback' => '_filter_luggage_markdown',
+  );
+  return $filters;
+}
+
+
+/*
+ * Filter process callback
+ */
+function _filter_luggage_markdown($text, $format) {
+  if(!empty($text)) {
+    // implement fenced code blocks
+    // stolen from http://cgit.drupalcode.org/sandbox-johnnybgoode-1462208/tree/gfm.module?h=7.x-1.x
+    $text = preg_replace_callback('/(`{3})[ ]*\n([^\n].*)\n\1/s', '_luggage_markdown_fenced_code_callback', $text);
+  }
+  return $text;
+}
+
+/*
+ * Fenced code block callback
+ */
+function _luggage_markdown_fenced_code_callback($matches) {
+  $lines = explode("\n", $matches[2]);
+  $text = '';
+  foreach ($lines as $line) {
+    $text .= str_repeat(' ', 4) . $line . "\n";
+  }
+  return $text;
+}
